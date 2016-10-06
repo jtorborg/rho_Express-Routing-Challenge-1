@@ -55,45 +55,44 @@ app.post('/songs', function(req, res) { //if we put array in here, array will be
     console.log('req.body', req.body);
     var submittedSong = req.body;
     console.log('submittedSong:', submittedSong);
+    //add Date property
     var d = new Date;
     submittedSong.dateAdded = d.getMonth().toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString();
     console.log("Date added: ", submittedSong.dateAdded);
-    ///set property to variable and compare
-
-    var songTitle = submittedSong.title;
-    var songArtist = submittedSong.artist;
-
-    // var boolean = songs.includes(submittedSong.title + submittedSong.artist);
-    // console.log(boolean);
-    // var boolean2 = songs.includes('{ title: ' + submittedSong.title + ', artist: ' + submittedSong.artist + ', dateAdded: ' + submittedSong.dateAdded + ' })';
-    // console.log(boolean2);
-
 
     for (i = 0; i < songs.length; i++) {
-        if (songTitle[i] == songTitle && songArtist[i] == songArtist) {
-            submittedSong == false;
-            if (submittedSong.title != false && submittedSong.artist != false && submittedSong != false) {
-                songs.push(submittedSong);
-                console.log('songs:', songs);
-                res.sendStatus(200);
-            } else {
-                res.sendStatus(400);
+        if (songs[i].title == submittedSong.title && songs[i].artist == submittedSong.artist) {
+            submittedSong = false;
+            if (submittedSong == false) {
+              console.log(submittedSong);//songs.pop(submittedSong);
             }
+            // console.log('songs title i', songs[i].title);
+            // console.log('submitted song title', submittedSong.title);
+            // console.log('song artist i', songs[i].artist);
+            // console.log('submitted song artist', submittedSong.artist);
+            // if (submittedSong == false) {
+            //     res.sendStatus(400);
+            // } else {
+            //     res.sendStatus(200);
+            // }
         }
-    }
-    if (submittedSong.title == '') {
-        submittedSong.title == false;
+    } //end of for loop to check for duplicates
+
+
+
+    if (submittedSong.title == '' || submittedSong.artist == '') {
+        submittedSong = false;
     };
-    if (submittedSong.artist == '') {
-        submittedSong.artist == false;
-    };
-    if (submittedSong.title != false && submittedSong.artist != false) {
-        songs.push(submittedSong);
+
+    if (submittedSong == false) {
         console.log('songs:', songs);
-        res.sendStatus(200);
-    } else {
+
         res.sendStatus(400);
-    }
+    } else {
+      songs.push(submittedSong);
+
+        res.sendStatus(200);
+    } //end of if/else statement
 });
 
 //GET route retrieve array of songs
